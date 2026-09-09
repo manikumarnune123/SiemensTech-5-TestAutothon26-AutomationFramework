@@ -5,6 +5,23 @@ A modular, production-ready UI automation framework built with **Playwright**, *
 **Android mobile web** (device emulation) and **native mobile apps via Appium** (Android/iOS) from a
 shared logging and reporting pipeline.
 
+## AI-native TestAutothon workspace
+
+This repository now includes a repo-local AI context pack for the Gajab TestAutothon challenge.
+The authorized application under test is **Gajab staging**: `https://stg.gajab.com/`.
+
+- Project-wide Copilot guidance: [.github/copilot-instructions.md](.github/copilot-instructions.md)
+- Gajab requirements and domain context: [docs/ai/gajab-requirements.md](docs/ai/gajab-requirements.md), [docs/ai/gajab-domain-knowledge.md](docs/ai/gajab-domain-knowledge.md)
+- Locator strategy: [docs/ai/locator-strategy.md](docs/ai/locator-strategy.md)
+- Sprint memory: [docs/ai/sprint-memory.md](docs/ai/sprint-memory.md)
+- Review checklists and PR guardrails: [docs/ai/review-checklists.md](docs/ai/review-checklists.md), [.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md)
+- Test strategy and bug report templates: [docs/testing/gajab-test-strategy.md](docs/testing/gajab-test-strategy.md), [docs/testing/bug-report-template.md](docs/testing/bug-report-template.md)
+- Reusable Copilot prompts: [.github/prompts](.github/prompts)
+- Specialist testing agents: [.github/agents](.github/agents)
+
+The original SauceDemo tests are retained as explicit framework examples only. Build the Gajab
+page objects and workflow tests from the AI context pack before challenge execution.
+
 ## Project layout
 
 ```
@@ -39,6 +56,9 @@ pwsh tests/Testhon.Tests/bin/Debug/net10.0/playwright.ps1 install
 $env:TEST_ENV="QA"
 dotnet test
 ```
+
+The default QA/UAT base URL is Gajab staging. Override with `RunSettings__BaseUrl` only for
+authorized non-production environments.
 
 ## Run — Android mobile web (device emulation)
 
