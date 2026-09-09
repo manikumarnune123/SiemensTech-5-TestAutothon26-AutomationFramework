@@ -10,7 +10,7 @@ namespace Testhon.Tests.Pages.Gajab;
 public sealed class GajabLoginPage : BasePage
 {
     private const string MobileNumberInput = "#signin-mobile-input";
-    private const string TermsCheckbox = "#signin-terms-checkbox";
+    private const string TermsCheckbox = "#signin-terms-unchecked-icon";
     private const string RequestOtpButton = "#signin-submit-btn";
     private const string SubmitButton = "#otp-submit-btn";
     private const string SuccessToast = "text=successful";
