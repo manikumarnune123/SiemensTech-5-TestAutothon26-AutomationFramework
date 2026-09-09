@@ -24,15 +24,20 @@ public abstract class BasePage
         Settings = settings;
     }
 
-    /// <summary>Navigates to <see cref="RunSettings.BaseUrl"/> plus an optional relative path.</summary>
-    public async Task NavigateAsync(string relativePath = "")
+    /// <summary>
+    /// Navigates to <see cref="RunSettings.BaseUrl"/> plus an optional relative path.
+    /// Pass <paramref name="waitUntil"/> for sites that never reach the default "load" state
+    /// (e.g. due to long-lived analytics/polling connections).
+    /// </summary>
+    public async Task NavigateAsync(string relativePath = "", WaitUntilState? waitUntil = null)
     {
         var url = string.IsNullOrEmpty(relativePath)
             ? Settings.BaseUrl
             : $"{Settings.BaseUrl.TrimEnd('/')}/{relativePath.TrimStart('/')}";
 
         Log.Information("Navigating to {Url}", url);
-        await Page.GotoAsync(url);
+        await Page.GotoAsync(url, new PageGotoOptions { WaitUntil = waitUntil ?? WaitUntilState.Load });
+        Thread.Sleep(10000);
     }
 
     public async Task<string> GetPageTitleAsync()

@@ -71,6 +71,17 @@ public sealed class PlaywrightDriver : ITestSession
         if (_settings.Video != CaptureMode.Off)
         {
             options.RecordVideoDir = CreateVideoDir();
+
+            // Recording requires a concrete frame size; without it Playwright silently forces a
+            // small default viewport, which defeats the maximized (ViewportSize = null) window.
+            if (options.ViewportSize is null)
+            {
+                options.RecordVideoSize = new RecordVideoSize
+                {
+                    Width = _settings.Viewport.Width,
+                    Height = _settings.Viewport.Height
+                };
+            }
         }
 
         Context = await Browser.NewContextAsync(options);

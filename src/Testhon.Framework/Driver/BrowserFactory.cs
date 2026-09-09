@@ -20,6 +20,13 @@ public static class BrowserFactory
         };
 
         var engine = settings.Platform == Platform.Android ? BrowserEngine.Chromium : settings.Browser;
+
+        // Chromium-only flag: opens the actual OS window maximized instead of a fixed small window.
+        if (!settings.Headless && settings.Platform != Platform.Android && engine == BrowserEngine.Chromium)
+        {
+            launchOptions.Args = new[] { "--start-maximized" };
+        }
+
         log.Debug("Launching {Engine} (headless={Headless}, slowMo={SlowMo})",
             engine, settings.Headless, settings.SlowMo);
 
@@ -49,14 +56,9 @@ public static class BrowserFactory
         }
         else
         {
-            options = new BrowserNewContextOptions
-            {
-                ViewportSize = new ViewportSize
-                {
-                    Width = settings.Viewport.Width,
-                    Height = settings.Viewport.Height
-                }
-            };
+            // Null viewport lets the page fill the actual browser window instead of being
+            // clipped to a fixed inner size.
+            options = new BrowserNewContextOptions { ViewportSize = null };
         }
 
         if (!string.IsNullOrWhiteSpace(settings.BaseUrl))

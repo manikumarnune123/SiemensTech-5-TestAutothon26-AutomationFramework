@@ -93,7 +93,7 @@ dotnet test --filter "TestCategory=Mobile"
 
 Mobile-web variant (drive Chrome on the device to the site instead of a native app): set
 `RunSettings:Appium:BrowserName` to `Chrome` and leave `App` empty; the session opens
-`RunSettings:Appium:BaseUrl` (default `https://stg.gajab.com/`).
+`RunSettings:Appium:BaseUrl` (default `https://gajab.com/`).
 
 The sample mobile tests (`MobileLoginTests`) are marked `[Explicit]` so they only run when selected
 (`--filter "TestCategory=Mobile"`) — they need a live Appium server and app. Their page-object
