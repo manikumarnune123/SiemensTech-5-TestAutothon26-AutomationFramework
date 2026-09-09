@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [Desktop, Android]
+    runs-on: ubuntu-latest
+    env:
+      TEST_ENV: QA
+      RunSettings__Platform: ${{ matrix.platform }}
+      RunSettings__Headless: "true"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore -c Release
+
+      - name: Install Playwright browsers
+        shell: pwsh
+        run: tests/Testhon.Tests/bin/Release/net10.0/playwright.ps1 install --with-deps chromium
+
+      - name: Test
+        run: >
+          dotnet test --no-build -c Release
+          --logger "trx;LogFileName=results.trx"
+          --logger "nunit;LogFilePath=TestResults/results.xml"
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-${{ matrix.platform }}
+          path: |
+            tests/Testhon.Tests/bin/Release/net10.0/reports/**
+            tests/Testhon.Tests/bin/Release/net10.0/logs/**
+            **/TestResults/**

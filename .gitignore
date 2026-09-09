@@ -1,0 +1,51 @@
+# Build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+
+# Test artifacts & run outputs
+TestResults/
+**/reports/
+**/logs/
+**/screenshots/
+**/traces/
+**/videos/
+*.trx
+*.coverage
+*.coveragexml
+
+# Playwright
+**/.playwright/
+.playwright-installed
+playwright-report/
+
+# Appium / mobile app packages (large binaries — don't commit build outputs)
+*.apk
+*.aab
+*.ipa
+*.app
+*.pdf
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# .NET user / local files
+*.user
+*.suo
+*.userprefs
+project.lock.json
+
+# IDE / editors
+.vs/
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

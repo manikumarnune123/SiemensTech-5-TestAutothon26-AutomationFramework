@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <!-- Visual Studio Test Explorer picks up parallelism/results settings automatically -->
+    <RunSettingsFilePath>$(MSBuildProjectDirectory)\test.runsettings</RunSettingsFilePath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="NUnit" Version="4.2.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    <!-- Emits NUnit-style XML results alongside TRX -->
+    <PackageReference Include="NunitXml.TestLogger" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Testhon.Framework\Testhon.Framework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="*.runsettings">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\**\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <!-- Deploy the mobile app package (drop the APK into TestData) for Appium native runs -->
+    <None Update="TestData\**\*.apk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!-- One-time Playwright browser install so VS Test Explorer "just works" -->
+  <Target Name="EnsurePlaywrightBrowsers" AfterTargets="Build"
+          Condition="'$(InstallPlaywrightBrowsers)' != 'false' and !Exists('$(TargetDir).playwright-installed')">
+    <Message Importance="high" Text="Installing Playwright browsers (one-time)..." />
+    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(TargetDir)playwright.ps1&quot; install chromium"
+          ContinueOnError="true" />
+    <Touch Files="$(TargetDir).playwright-installed" AlwaysCreate="true" />
+  </Target>
+
+</Project>

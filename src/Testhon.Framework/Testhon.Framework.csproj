@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Testhon.Framework</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Browser automation -->
+    <PackageReference Include="Microsoft.Playwright" Version="1.49.0" />
+
+    <!-- Native/mobile-web automation via Appium (Selenium WebDriver protocol) -->
+    <PackageReference Include="Appium.WebDriver" Version="5.0.0" />
+
+    <!-- Structured logging -->
+    <PackageReference Include="Serilog" Version="4.2.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+
+    <!-- HTML reporting (package id is "ExtentReports"; namespace is AventStack.ExtentReports) -->
+    <PackageReference Include="ExtentReports" Version="5.0.4" />
+    <!-- Override transitive System.Drawing.Common 5.0.0 (GHSA-rxg9-xrhp-64gj) with a patched build -->
+    <PackageReference Include="System.Drawing.Common" Version="8.0.10" />
+
+    <!-- Configuration -->
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
+  </ItemGroup>
+
+</Project>
